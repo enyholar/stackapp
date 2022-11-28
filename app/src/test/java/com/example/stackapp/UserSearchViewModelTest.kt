@@ -1,5 +1,6 @@
 package com.example.stackapp
 
+import android.util.Log
 import com.example.data.remote.StackExchangeApiService
 import com.example.testdata.builder.SearchResponseBuilder
 import com.example.domain.usecase.SearchUserUseCase
@@ -17,17 +18,20 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import org.mockito.Mockito
+import org.mockito.exceptions.base.MockitoException
+import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
+
 @ExperimentalCoroutinesApi
 class UserSearchViewModelTest {
     private val searchUserUseCase: SearchUserUseCase = mock()
+    private val log: Log = mock()
 
     private val searchResponse = SearchResponseBuilder.searchResponse().build()
     private val dispatcherProvider = CoroutineTestRule().testDispatcherProvider
-
-//    @get:Rule
-//    var coroutinesRule = CoroutinesTestRule()
 
     val dispatcher = UnconfinedTestDispatcher()
     val scope = TestScope(dispatcher)
@@ -41,7 +45,6 @@ class UserSearchViewModelTest {
     private val userSearchViewModel = UserSearchViewModel(
         searchUserUseCase = searchUserUseCase,
         dispatcherProvider = dispatcherProvider
-       // appDispatchers = testDispatcher
     )
 
     @Before
@@ -55,7 +58,7 @@ class UserSearchViewModelTest {
     }
 
     @Test
-    fun `when received successful response, then search response is retrieved from api`() =
+    fun `when user search, then search response is returned with list of user`() =
         runTest {
             given(
                 searchUserUseCase.invoke(
@@ -68,5 +71,22 @@ class UserSearchViewModelTest {
 
             userSearchViewModel.getData("Gideon")
             assertThat(userSearchViewModel.uiState.user).isEqualTo(searchResponse.items)
+        }
+
+    @Test
+    fun `when user search, then exception is returned`() =
+        runTest {
+            Mockito.`when`(
+                searchUserUseCase.invoke(
+                    page = "stackoverflow",
+                    query = "Gideon",
+                    sort = "reputation",
+                    orderBy = "desc"
+                )
+            ).thenThrow(RuntimeException())
+
+            assertThrows<RuntimeException> {
+                userSearchViewModel.getData("Gideon")
+            }
         }
 }

@@ -33,7 +33,6 @@ class StackExchangeRepositoryImplTest {
     )
 
     val dispatcher = StandardTestDispatcher()
-    val scope = TestScope(dispatcher)
     private val searchResponse = SearchResponseBuilder().build()
 
     @Before

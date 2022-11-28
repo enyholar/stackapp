@@ -5,7 +5,7 @@ import com.example.stackapp.model.User
 
 class SearchResponseBuilder {
 
-    private val user: User = User(displayName = "Gideon")
+    private val user: User = User(displayName = DEFAULT_DISPLAY_NAME)
     private val userList = listOf(user,user)
     fun build () = SearchUserResponse(
         quotaMax = 10,
@@ -16,8 +16,6 @@ class SearchResponseBuilder {
     companion object {
 
         private const val DEFAULT_DISPLAY_NAME = "Gideon"
-        private const val URL = "url"
-
         fun searchResponse() = SearchResponseBuilder()
     }
 }

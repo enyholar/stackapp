@@ -35,10 +35,9 @@ class UserSearchViewModel @Inject constructor(
                         sort = "reputation",
                         orderBy = "desc"
                     )
-                    val se = search.items
                     uiState = uiState.copy(user = search.items)
                 } catch (ex: Exception) {
-                    Log.e("errorGideon", ex.message.toString())
+            //        Log.e("errorGideon", ex.message.toString())
                 }
                 finally {
                     uiState = uiState.copy(isLoading = false)
