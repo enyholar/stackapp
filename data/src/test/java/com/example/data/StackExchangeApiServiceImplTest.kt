@@ -3,7 +3,8 @@ package com.example.data
 import com.example.data.api.StackExchangeApi
 import com.example.data.remote.StackExchangeApiService
 import com.example.data.remote.StackExchangeServiceImpl
-import com.example.domain.model.SearchResponseBuilder
+import com.example.testdata.builder.SearchResponseBuilder
+import com.example.domain.model.SearchUserResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -21,6 +22,7 @@ import org.mockito.exceptions.base.MockitoException
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
+import retrofit2.Response
 
 
 @ExperimentalCoroutinesApi
@@ -48,6 +50,8 @@ class StackExchangeApiServiceImplTest {
     @Test
     fun `when received successful response, then search response is retrieved from api`() =
         runTest {
+            val expectedResponse: Response<SearchUserResponse> = Response.success(searchResponse)
+
             given(
                 stackExchangeApi.searchForUser(
                     page = any(),
@@ -55,7 +59,7 @@ class StackExchangeApiServiceImplTest {
                     sort = any(),
                     orderBy = any()
                 )
-            ).willReturn(searchResponse)
+            ).willReturn(expectedResponse)
 
             val result = stackExchangeApiService.searchForUser(
                 page = "stackoverflow",
@@ -64,7 +68,7 @@ class StackExchangeApiServiceImplTest {
                 orderBy = "desc"
             )
 
-            assertThat(result).isEqualTo(searchResponse)
+            assertThat(result.body()).isEqualTo(searchResponse)
 
         }
 

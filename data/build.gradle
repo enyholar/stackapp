@@ -44,7 +44,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation project(path: ':domain')
-//    testImplementation 'junit:junit:4.13.2'
+    testImplementation project(path: ':testdata')
     testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
     testImplementation "org.junit.vintage:junit-vintage-engine:5.8.2"
 

@@ -1,5 +1,6 @@
-package com.example.domain.model
+package com.example.testdata.builder
 
+import com.example.domain.model.SearchUserResponse
 import com.example.stackapp.model.User
 
 class SearchResponseBuilder {

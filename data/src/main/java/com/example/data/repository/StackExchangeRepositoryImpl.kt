@@ -1,10 +1,13 @@
 package com.example.data.repository
 
 import com.example.data.remote.StackExchangeApiService
+import com.example.data.utils.ApiError
+import com.example.data.utils.ApiException
+import com.example.data.utils.ApiSuccess
+import com.example.data.utils.handleApi
+import com.example.domain.model.SearchUserResponse
 import com.example.domain.repository.StackExchangeRepository
-import com.example.stackapp.model.User
-import retrofit2.Response
-import com.example.domain.utils.Result
+
 class StackExchangeRepositoryImpl(
     private val stackExchangeApiService: StackExchangeApiService
 ) : StackExchangeRepository {
@@ -14,10 +17,19 @@ class StackExchangeRepositoryImpl(
         query: String,
         sort: String,
         orderBy: String
-    ) = stackExchangeApiService.searchForUser(
-        page = page,
-        query = query,
-        sort = sort,
-        orderBy = orderBy
-    )
+    ): SearchUserResponse {
+        val networkCallResult = handleApi {
+            stackExchangeApiService.searchForUser(
+                page = page,
+                query = query,
+                sort = sort,
+                orderBy = orderBy
+            )
+        }
+        return when (networkCallResult) {
+            is ApiSuccess -> networkCallResult.data
+            is ApiError -> throw Throwable(networkCallResult.message)
+            is ApiException -> throw networkCallResult.e
+        }
+    }
 }

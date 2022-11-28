@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.data.utils
 
 import retrofit2.HttpException
 import retrofit2.Response
@@ -10,13 +10,13 @@ suspend fun <T : Any> handleApi(
         val response = execute()
         val body = response.body()
         if (response.isSuccessful && body != null) {
-            NetworkCallResult.Success(body)
+            ApiSuccess(body)
         } else {
-            NetworkCallResult.Error(code = response.code(), message = response.message())
+            ApiError(code = response.code(), message = response.message())
         }
     } catch (e: HttpException) {
-        NetworkCallResult.Error(code = e.code(), message = e.message())
+        ApiError(code = e.code(), message = e.message())
     } catch (e: Throwable) {
-        NetworkCallResult.Exception(e)
+       ApiException(e)
     }
 }

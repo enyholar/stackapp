@@ -2,7 +2,9 @@ package com.example.data
 
 import com.example.data.remote.StackExchangeApiService
 import com.example.data.repository.StackExchangeRepositoryImpl
-import com.example.domain.model.SearchResponseBuilder
+import com.example.testdata.builder.SearchResponseBuilder
+import com.example.domain.model.SearchUserResponse
+import kotlin.Exception
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -20,6 +22,7 @@ import org.mockito.kotlin.mock
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.exceptions.base.MockitoException
+import retrofit2.Response
 
 
 @ExperimentalCoroutinesApi
@@ -47,14 +50,16 @@ class StackExchangeRepositoryImplTest {
     @Test
     fun `when received result, then search response is returned`() =
         runTest {
+            val expectedResponse: Response<SearchUserResponse> = Response.success(searchResponse)
+
             given(
-                stackExchangeRepository.searchForUser(
+                stackExchangeApiService.searchForUser(
                     page = any(),
                     query = any(),
                     sort = any(),
                     orderBy = any()
                 )
-            ).willReturn(searchResponse)
+            ).willReturn(expectedResponse)
 
             val result = stackExchangeRepository.searchForUser(
                 page = "stackoverflow",
@@ -69,7 +74,7 @@ class StackExchangeRepositoryImplTest {
     @Test
     fun `when received error response, then propagate error`()  = runTest{
         Mockito.`when`(
-            stackExchangeRepository.searchForUser(
+            stackExchangeApiService.searchForUser(
                 page = any(),
                 query = any(),
                 sort = any(),
