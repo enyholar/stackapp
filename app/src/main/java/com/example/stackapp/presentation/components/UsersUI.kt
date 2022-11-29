@@ -3,6 +3,7 @@ package com.example.stackapp.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,11 +14,16 @@ import com.example.stackapp.model.User
 
 @Composable
 fun UsersUi(users: List<User>?, onClick: (User) -> Unit) {
-    users?.forEach { user ->
-        UserRow(user = user) {
-            onClick(user)
+    LazyColumn(modifier = Modifier.fillMaxHeight()) {
+        users?.size?.let {
+            items(count = it, itemContent = { item ->
+                val user = users[item]
+                UserRow(user = user) {
+                    onClick(user)
+                }
+                Divider()
+            })
         }
-        Divider()
     }
 }
 

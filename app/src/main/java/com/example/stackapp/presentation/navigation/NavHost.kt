@@ -2,21 +2,23 @@ package com.example.stackapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.example.stackapp.presentation.navigation.UserListDestination.userListGraph
+import com.example.stackapp.presentation.navigation.MainDestination.mainGraph
 
 @Composable
 internal fun StackNavHost(
-    navController: NavHostController,
+   destinationState: RegistrationDestinationState,
     modifier: Modifier,
     startDestination: String,
 ){
     NavHost(
-        navController = navController,
-       startDestination = startDestination,
+        navController = destinationState.navController,
+        startDestination = startDestination,
         modifier = modifier
     ) {
-        userListGraph()
+        mainGraph(
+            navigateToScreen = destinationState::navigate,
+            navigateUp = destinationState::navigateUp
+        )
     }
 }

@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
+import com.example.stackapp.presentation.navigation.MainDestination
 import com.example.stackapp.presentation.navigation.StackNavHost
-import com.example.stackapp.presentation.navigation.UserListDestination
+import com.example.stackapp.presentation.navigation.rememberRegistrationDestination
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,11 +24,13 @@ class MainActivity : AppCompatActivity() {
     }
     @Composable
     private fun StackContent(){
-        val navController = rememberNavController()
+        val destinationState = rememberRegistrationDestination()
+
+ //       val navController = rememberNavController()
         StackNavHost(
-            navController = navController,
+            destinationState = destinationState,
             modifier = Modifier,
-            startDestination = startDestination ?: UserListDestination.route
+            startDestination = startDestination ?: MainDestination.route
         )
     }
 }

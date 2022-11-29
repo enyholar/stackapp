@@ -3,4 +3,12 @@
     <string name="icn_search_clear_content_description">search</string>
     <string name="icn_search_back_content_description">seat</string>
 
+    <string name="error_network">Oops something went wrong</string>
+    <string name="error_no_user_found">Users not found</string>
+    <string name="error_no_network">No network connection</string>
+    <string name="error_network_timeout">Network request timed out</string>
+    <string name="error_message_default">Please try again</string>
+    <string name="error_title_default">Something went wrong</string>
+    <string name="ok">OK</string>
+
 </resources>

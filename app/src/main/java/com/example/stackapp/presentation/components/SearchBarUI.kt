@@ -5,7 +5,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,8 +37,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.stackapp.R
 
@@ -54,7 +51,6 @@ fun SearchBarUI(
     onSearchTextChanged: (String) -> Unit = {},
     onClearClick: () -> Unit = {},
     onNavigateBack: () -> Unit = {},
-    matchesFound: Boolean,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
@@ -148,19 +144,5 @@ fun SearchBar(
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
-    }
-}
-
-
-@Composable
-fun NoSearchResults() {
-
-    Column(
-        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
-        horizontalAlignment = CenterHorizontally
-    ) {
-
-        Text("No matches found")
-
     }
 }
